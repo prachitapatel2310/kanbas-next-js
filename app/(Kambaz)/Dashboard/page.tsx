@@ -8,7 +8,7 @@ export default function Dashboard() {
       <div id="wd-dashboard-courses">
         <div className="wd-dashboard-course">
           <Link href="/Courses/1234" className="wd-dashboard-course-link">
-            <Image src="/images/images.png" width={200} height={150} alt="Course thumbnail" />
+            <Image src="/image/images.png" width={200} height={150} alt="Course thumbnail" />
             <div>
               <h5> CS1234 React JS </h5>
               <p className="wd-dashboard-course-title">
@@ -20,7 +20,7 @@ export default function Dashboard() {
         </div>
         <div className="wd-dashboard-course"> 
             <Link href="/Courses/2345" className="wd-dashboard-course-link">
-            <Image src="/images/images.png" width={200} height={150} alt="Course" />
+            <Image src="/image/image3.png" width={200} height={150} alt="Course" />
             <div>
               <h5> CS2345 Program Design Paradigm </h5>
               <p className="wd-dashboard-course-title">
@@ -32,9 +32,21 @@ export default function Dashboard() {
         </div>
         <div className="wd-dashboard-course"> 
             <Link href="/Courses/3456" className="wd-dashboard-course-link">
-            <Image src="/images/images.png" width={200} height={150} alt="Course" />
+            <Image src="/image/image2.png" width={200} height={150} alt="Course" />
             <div>
               <h5> CS3456 Algorithms </h5>
+              <p className="wd-dashboard-course-title">
+                Data Structure and Algorithm
+              </p>
+              <button> Go </button>
+            </div>
+            </Link>
+        </div>
+        <div className="wd-dashboard-course"> 
+            <Link href="/Courses/4567" className="wd-dashboard-course-link">
+            <Image src="/image/images4.png" width={200} height={150} alt="Course" />
+            <div>
+              <h5> CS4567 Database Management System</h5>
               <p className="wd-dashboard-course-title">
                 Data Structure and Algorithm
               </p>

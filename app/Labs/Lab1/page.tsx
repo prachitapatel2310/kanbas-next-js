@@ -115,6 +115,12 @@ export default function Lab1() {
                 <td>2/17/21</td>
                 <td>95</td>
               </tr>
+              <tr>
+                <td>Q3</td>
+                <td>React</td>
+                <td>2/20/21</td>
+                <td>95</td>
+              </tr>
             </tbody>
             <tfoot>
               <tr>
@@ -131,7 +137,7 @@ export default function Lab1() {
             <br/>
             Loading a local image:
             <br/>
-            <img src="/images/teslabot.jpeg" alt="Tesla Bot" width="200px" />
+            <img src="/image/teslabot.jpeg" alt="Tesla Bot" width="200px" />
 
         </div>
 
