@@ -10,17 +10,52 @@ export default function Modules() {
         </select>
         <button style={{ marginLeft: "10px" }}>+ Module</button>
       </div>
-
       <ul>
         {/* Week 1 */}
         <li className="wd-module">
-          <div className="wd-title">Week 1</div>
+          <div className="wd-title">Week 1, Lecture 1 - Course Introduction, Syllabus, Agenda</div>
           <ul className="wd-lessons">
             <li className="wd-lesson">
               <span className="wd-title">LEARNING OBJECTIVES</span>
               <ul className="wd-content">
                 <li className="wd-content-item">Introduction to the course</li>
                 <li className="wd-content-item">Learn what is Web Development</li>
+              </ul>
+            </li>
+            <li className="wd-lesson">
+              <span className="wd-title">READING</span>
+              <ul className="wd-content">
+                <li className="wd-content-item">Full Stack Developer - Chapter 1 - Introduction</li>
+                <li className="wd-content-item">Full Stack Developer - Chapter 2 - Creating User Interfaces</li>
+              </ul>
+            </li>
+            <li className="wd-lesson">
+              <span className="wd-title">SLIDES</span>
+              <ul className="wd-content">
+                <li className="wd-content-item">Introduction to Web Development</li>
+                <li className="wd-content-item">Creating an HTTP server with Node.js</li>
+                <li className="wd-content-item">Creating a React Application</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li className="wd-module">
+          <div className="wd-title">Week 1, Lecture 2 - Formatting User Interfaces with HTML</div>
+          <ul className="wd-lessons">
+            <li className="wd-lesson">
+              <span className="wd-title">LEARNING OBJECTIVES</span>
+              <ul className="wd-content">
+                <li className="wd-content-item">Learn how to create user interfaces with HTML</li>
+                <li className="wd-content-item">Deploy the assignment to Netlify</li>
+              </ul>
+            </li>
+            <li className="wd-lesson">
+              <span className="wd-title">SLIDES</span>
+              <ul className="wd-content">
+                <li className="wd-content-item">Introduction to HTML and the DOM</li>
+                <li className="wd-content-item">Formatting Web content with Headings</li>
+                <li className="wd-content-item">Formatting content with Lists and Tables</li>
               </ul>
             </li>
           </ul>
@@ -38,6 +73,14 @@ export default function Modules() {
                 <li className="wd-content-item">Creating hyperlinks and images</li>
               </ul>
             </li>
+            <li className="wd-lesson">
+              <span className="wd-title">SLIDES</span>
+              <ul className="wd-content">
+                <li className="wd-content-item">Introduction to Multimedia and Forms</li>
+                <li className="wd-content-item">HTML5 Semantic Tags</li>
+                <li className="wd-content-item">Structuring Web Pages</li>
+              </ul>
+            </li>
           </ul>
         </li>
 
@@ -52,6 +95,14 @@ export default function Modules() {
                 <li className="wd-content-item">Selectors, properties, and values</li>
                 <li className="wd-content-item">Styling text, colors, and backgrounds</li>
                 <li className="wd-content-item">Box model: margins, borders, padding</li>
+              </ul>
+            </li>
+            <li className="wd-lesson">
+              <span className="wd-title">SLIDES</span>
+              <ul className="wd-content">
+                <li className="wd-content-item">CSS Basics and Selectors</li>
+                <li className="wd-content-item">Styling with Colors and Fonts</li>
+                <li className="wd-content-item">Box Model and Layouts</li>
               </ul>
             </li>
           </ul>

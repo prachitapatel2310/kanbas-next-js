@@ -9,22 +9,20 @@ export default function AssignmentEditor({
   return (
     <div id="wd-assignments-editor">
       <h2>
-        Editing Assignment {aid} for Course {cid}
+        Assignment {aid} for Course {cid}
       </h2>
 
       {/* Assignment Name */}
-      <label htmlFor="wd-name">Assignment Name</label>
       <input id="wd-name" defaultValue={`Assignment ${aid}`} />
       <br />
       <br />
 
       {/* Description */}
-      <label htmlFor="wd-description">Description</label>
       <textarea
         id="wd-description"
-        defaultValue={`This is the description for assignment ${aid} in course ${cid}.`}
+        defaultValue={`This is the description for assignment ${aid} in course ${cid}.We have to implement kambaz application having various pages and functionality`}
       />
-      <br />
+      <br /><br />
 
       <table>
         <tbody>
@@ -51,6 +49,7 @@ export default function AssignmentEditor({
               </select>
             </td>
           </tr>
+          
 
           {/* Display Grade */}
           <tr>
@@ -65,6 +64,7 @@ export default function AssignmentEditor({
               </select>
             </td>
           </tr>
+          
 
           {/* Submission Type */}
           <tr>
@@ -79,6 +79,7 @@ export default function AssignmentEditor({
               </select>
             </td>
           </tr>
+          
 
           {/* Online Entry Options */}
           <tr>
@@ -101,6 +102,7 @@ export default function AssignmentEditor({
               </label>
             </td>
           </tr>
+          
 
           {/* Assign To */}
           <tr>
@@ -111,6 +113,7 @@ export default function AssignmentEditor({
               <input id="wd-assign-to" defaultValue="Everyone" />
             </td>
           </tr>
+          
 
           {/* Due Date */}
           <tr>
@@ -121,6 +124,7 @@ export default function AssignmentEditor({
               <input id="wd-due-date" type="date" defaultValue="2025-05-13" />
             </td>
           </tr>
+          
 
           {/* Available From */}
           <tr>
@@ -135,6 +139,7 @@ export default function AssignmentEditor({
               />
             </td>
           </tr>
+          
 
           {/* Until */}
           <tr>
@@ -147,6 +152,7 @@ export default function AssignmentEditor({
           </tr>
         </tbody>
       </table>
+      <button>Save</button><button>Cancel</button>
     </div>
   );
 }
