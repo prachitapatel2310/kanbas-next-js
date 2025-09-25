@@ -9,9 +9,8 @@ export default function CourseNavigation() {
       <Link href="/Courses/1234/Zoom">Zoom</Link><br/>
       <Link href="/Courses/1234/Assignments">
           Assignments</Link><br/>
-      <Link href="/Courses/1234/Quizzes">Quizzes
-        </Link><br/>
+      <Link href="/Courses/1234/Quiz">Quizzes</Link><br/>
       <Link href="/Courses/1234/Grades">Grades</Link><br/>
-      <Link href="/Courses/1234/People/Table">People</Link><br/>
+      <Link href="/Courses/1234/People">People</Link><br/>
     </div>
   );}
