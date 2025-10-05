@@ -1,12 +1,32 @@
 import "./index.css";
-
+import ForegroundColors from "./ForegroundColors";
+import BackgroundColors from "./BackgroundColors";
+import Borders from "./Borders";
+import Padding from "./Padding";
+import Margin from "./Margin";
+import Corner from "./Corner";
+import Dimensions from "./Dimensions";
+import Positions from "./Positions";
+import Zindex from "./Zindex";
+import Float from "./Float";
+import GridLayout from "./GridLayout";
+import Flex from "./Flex";
+import ReactIconsSampler from "./ReactIcons";
+import { Container } from "react-bootstrap";
+import BootstrapGrids from "./BootstrapGrids";
+import ScreenSizeLabel from "./ScreenSizeLabel";
+import BootstrapTables from "./BootstrapTables";
+import BootstrapLists from "./BootstrapLists";
+import BootstrapForms from "./BootstrapForms";
+import BootstrapNavigation from "./BootstrapNavigation";
+import GreenCheckmark from "@/app/(Kambaz)/Courses/[cid]/Modules/GreenCheckMark";
 
 export default function Lab2() {
   return (
-    <div id="wd-lab2">
+    <Container>
       <h2>Lab 2 - Cascading Style Sheets</h2>
       <h3>Styling with the STYLE attribute</h3>
-      <p>
+      <p id="backgroundcolor" >
         Style attribute allows configuring look and feel
         right on the element. Although its very convenient
         it is considered bad practice and you should avoid
@@ -53,9 +73,34 @@ export default function Lab2() {
         </div>
         </div>
       </div>
+
+      
+      <ForegroundColors />
+      <BackgroundColors />
+      <Borders />
+      <Padding />
+      <Margin />
+      <Corner />
+      <Dimensions />
+      <Positions />
+      <Zindex />
+      <Float />
+      <GridLayout />
+      <Flex />
+      <ReactIconsSampler />
+      <BootstrapGrids />
+      <ScreenSizeLabel />
+      <BootstrapTables />
+      <BootstrapLists />
+      <BootstrapForms />
+      <BootstrapNavigation />
+      <GreenCheckmark />
+      
+
+      
       
 
 
 
-    </div> );
+    </Container> );
 }
