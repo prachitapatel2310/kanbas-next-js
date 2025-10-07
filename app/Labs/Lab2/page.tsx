@@ -94,7 +94,7 @@ export default function Lab2() {
       <BootstrapLists />
       <BootstrapForms />
       <BootstrapNavigation />
-      <GreenCheckmark />
+      
       
 
       
