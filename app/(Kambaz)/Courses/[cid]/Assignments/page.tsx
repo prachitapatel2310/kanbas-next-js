@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import {
   Button,
   FormControl,
@@ -11,140 +12,55 @@ import {
 import { BsGripVertical } from "react-icons/bs";
 import { FaPlus, FaCheckCircle } from "react-icons/fa";
 import { MdOutlineGroupAdd } from "react-icons/md";
+import db from "../../../Database";
 
-type Assignment = {
-  id: string;
-  title: string;
-  available: string;
-  due: string;
-  points: number;
-};
+export default function Assignments() {
+  const { cid } = useParams();
 
-const courseAssignments: Record<string, Assignment[]> = {
-  "1234": [
-    {
-      id: "a1",
-      title: "A1 - ENV + HTML",
-      available: "May 6 at 12:00am",
-      due: "May 13 at 11:59pm",
-      points: 100,
-    },
-    {
-      id: "a2",
-      title: "A2 - CSS + BOOTSTRAP",
-      available: "May 13 at 12:00am",
-      due: "May 20 at 11:59pm",
-      points: 100,
-    },
-    {
-      id: "a3",
-      title: "A3 - JAVASCRIPT + REACT",
-      available: "May 20 at 12:00am",
-      due: "May 27 at 11:59pm",
-      points: 100,
-    },
-  ],
-  "2345": [
-    {
-      id: "a1",
-      title: "A1 - Java Basics",
-      available: "June 1 at 12:00am",
-      due: "June 8 at 11:59pm",
-      points: 50,
-    },
-    {
-      id: "a2",
-      title: "A2 - Objects",
-      available: "June 8 at 12:00am",
-      due: "June 15 at 11:59pm",
-      points: 75,
-    },
-    {
-      id: "a3",
-      title: "A3 - Classes",
-      available: "June 15 at 12:00am",
-      due: "June 22 at 11:59pm",
-      points: 100,
-    },
-    {
-      id: "a4",
-      title: "A4 - Polymorphism",
-      available: "June 22 at 12:00am",
-      due: "June 29 at 11:59pm",
-      points: 100,
-    },
-  ],
-  "3456": [
-    {
-      id: "a1",
-      title: "A1 - C++ Basics",
-      available: "June 1 at 12:00am",
-      due: "June 8 at 11:59pm",
-      points: 50,
-    },
-    {
-      id: "a2",
-      title: "A2 - Data Structures",
-      available: "June 8 at 12:00am",
-      due: "June 15 at 11:59pm",
-      points: 75,
-    },
-    {
-      id: "a3",
-      title: "A3 - Algorithms",
-      available: "June 15 at 12:00am",
-      due: "June 22 at 11:59pm",
-      points: 100,
-    },
-    {
-      id: "a4",
-      title: "A4 - DSA Capstone Project",
-      available: "June 22 at 12:00am",
-      due: "June 29 at 11:59pm",
-      points: 100,
-    },
-  ],
-};
-
-export default function Assignments({ params }: { params: { cid: string } }) {
-  const { cid } = params;
-  const assignments = courseAssignments[cid] || [];
+  // ✅ Filter strictly by current course id (case-insensitive)
+  const assignments = db.assignments.filter(
+    (a: any) => a.course.toLowerCase() === String(cid).toLowerCase()
+  );
 
   return (
-    <div id="wd-assignments" className="p-3">
+    <div id="wd-assignments" className="p-4" style={{ background: "#fff" }}>
       {/* ---- Top Controls ---- */}
-      <div className="d-flex align-items-center mb-4 flex-wrap gap-2">
-        {/* Search Bar */}
+      <div
+        className="d-flex align-items-center mb-4 flex-wrap gap-2"
+        style={{ justifyContent: "space-between" }}
+      >
         <InputGroup style={{ maxWidth: "300px" }}>
           <FormControl placeholder="Search for Assignments" />
         </InputGroup>
 
-        {/* + Group and + Assignment Buttons */}
-        <Button
-          variant="secondary"
-          size="lg"
-          className="fw-semibold d-flex align-items-center"
-        >
-          <MdOutlineGroupAdd className="me-2 fs-5" /> + Group
-        </Button>
-        <Button
-          variant="danger"
-          size="lg"
-          className="fw-semibold d-flex align-items-center"
-        >
-          <FaPlus className="me-2 fs-5" /> + Assignment
-        </Button>
+        <div className="d-flex gap-2">
+          <Button variant="secondary" className="fw-semibold d-flex align-items-center">
+            <MdOutlineGroupAdd className="me-2 fs-5" /> + Group
+          </Button>
+          <Button variant="danger" className="fw-semibold d-flex align-items-center">
+            <FaPlus className="me-2 fs-5" /> + Assignment
+          </Button>
+        </div>
       </div>
 
-      {/* ---- Assignments Section ---- */}
+      {/* ---- Assignment Group Header ---- */}
       <ListGroup className="rounded-0 border">
-        <ListGroupItem className="wd-assignment-group p-3 bg-light border-0 d-flex justify-content-between align-items-center">
+        <ListGroupItem
+          className="p-3 border-0 d-flex justify-content-between align-items-center"
+          style={{
+            backgroundColor: "#f5f5f5",
+            fontWeight: 600,
+            borderBottom: "1px solid #ddd",
+          }}
+        >
           <div className="d-flex align-items-center">
             <BsGripVertical className="me-2 fs-4 text-muted" />
             <strong>ASSIGNMENTS</strong>
           </div>
           <div className="d-flex align-items-center gap-2">
-            <span className="fw-bold text-secondary">40% of Total</span>
+            <span className="fw-bold text-secondary" style={{ fontSize: "13px" }}>
+              40% of Total
+            </span>
             <Button variant="outline-dark" size="sm">
               <FaPlus />
             </Button>
@@ -152,30 +68,47 @@ export default function Assignments({ params }: { params: { cid: string } }) {
         </ListGroupItem>
 
         {/* ---- Assignment Rows ---- */}
-        {assignments.map((a) => (
-          <ListGroupItem
-            key={a.id}
-            className="d-flex justify-content-between align-items-center border-top"
-          >
-            <div>
-              <div className="d-flex align-items-center">
-                <BsGripVertical className="me-2 fs-4 text-muted" />
-                <Link
-                  href={`/Courses/${cid}/Assignments/${a.id}`}
-                  className="fw-bold text-primary text-decoration-none"
-                >
-                  {a.title}
-                </Link>
-              </div>
-              <div className="text-muted ms-4">
-                <span className="text-danger">Multiple Modules</span> |{" "}
-                <strong>Not available until</strong> {a.available} |{" "}
-                <strong>Due</strong> {a.due} | {a.points} pts
-              </div>
-            </div>
-            <FaCheckCircle className="text-success fs-4" />
+        {assignments.length === 0 ? (
+          <ListGroupItem className="text-muted text-center py-4">
+            No assignments found for this course.
           </ListGroupItem>
-        ))}
+        ) : (
+          assignments.map((a: any) => (
+            <ListGroupItem
+              key={a._id}
+              className="d-flex justify-content-between align-items-center border-top"
+              style={{
+                backgroundColor: "#fff",
+                transition: "background-color 0.2s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#f9f9f9")}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#fff")}
+            >
+              <div>
+                <div className="d-flex align-items-center">
+                  <BsGripVertical className="me-2 fs-4 text-muted" />
+                  <Link
+                    href={`/Courses/${cid}/Assignments/${a._id}`}
+                    className="fw-bold text-decoration-none"
+                    style={{ color: "#0073e6", fontSize: "15px" }}
+                  >
+                    {a.title}
+                  </Link>
+                </div>
+                <div className="text-muted ms-4" style={{ fontSize: "13px" }}>
+                  <span style={{ color: "#c62828" }}>
+                    {a.modules?.join(", ") || "Multiple Modules"}
+                  </span>{" "}
+                  | <strong>Available</strong>{" "}
+                  {new Date(a.availableFrom).toLocaleDateString("en-US")} |{" "}
+                  <strong>Due</strong>{" "}
+                  {new Date(a.dueDate).toLocaleDateString("en-US")} | {a.points} pts
+                </div>
+              </div>
+              <FaCheckCircle className="text-success fs-4" />
+            </ListGroupItem>
+          ))
+        )}
       </ListGroup>
     </div>
   );

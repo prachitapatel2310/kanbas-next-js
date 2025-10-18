@@ -1,36 +1,37 @@
 import { ReactNode } from "react";
-import { FaAlignJustify } from "react-icons/fa";
+import { FaAlignJustify } from "react-icons/fa6";
+import db from "../../Database";
 import CourseNavigation from "./Navigation";
 
-export default async function CoursesLayout(
-  { children, params }: Readonly<{
-    children: ReactNode;
-    params: Promise<{ cid: string }>;
-  }>
-) {
-  const { cid } = await params;
+export default function CoursesLayout({
+  children,
+  params,
+}: {
+  children: ReactNode;
+  params: { cid: string };
+}) {
+  const { cid } = params;
+  const course = db.courses.find((course: any) => course._id === cid);
 
   return (
-    <div id="wd-courses">
-      <h2 className="text-danger">
-        <FaAlignJustify className="me-4 fs-4 mb-1" />
-        Course {cid}
-      </h2>
-      <hr />
-      <table>
-        <tbody>
-          <tr>
-            <td valign="top" width="200">
-              <div className="d-none d-md-block">
-                <CourseNavigation />
-              </div>
-            </td>
-            <td valign="top" width="100%">
-              <div className="flex-fill">{children}</div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div id="wd-courses" className="d-flex">
+      {/* ---- Sidebar ---- */}
+      <div
+        className="d-none d-md-block bg-white border-end"
+        style={{ width: "200px", minHeight: "100vh" }}
+      >
+        <CourseNavigation />
+      </div>
+
+      {/* ---- Main Content ---- */}
+      <div className="flex-fill p-3">
+        <h2 className="text-danger">
+          <FaAlignJustify className="me-4 fs-4 mb-1" />
+          {course?.name || `Course ${cid}`}
+        </h2>
+        <hr />
+        {children}
+      </div>
     </div>
   );
 }

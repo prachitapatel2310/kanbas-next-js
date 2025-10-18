@@ -1,4 +1,4 @@
-export default function Quiz() {
+export default function Quizzes() {
   return (
     <div>
       <h2>Quiz</h2>

@@ -1,0 +1,92 @@
+[
+  {
+    "_id": "A101",
+    "title": "A1 - Introduction to Rocket Propulsion",
+    "course": "RS101",
+    "availableFrom": "2025-05-06T00:00:00",
+    "dueDate": "2025-05-13T23:59:00",
+    "points": 100,
+    "modules": ["Introduction to Rocket Propulsion", "Fuel and Combustion"]
+  },
+  {
+    "_id": "A102",
+    "title": "A2 - Fuel and Combustion",
+    "course": "RS101",
+    "availableFrom": "2025-05-13T00:00:00",
+    "dueDate": "2025-05-20T23:59:00",
+    "points": 100,
+    "modules": ["Fuel and Combustion", "Nozzle Design"]
+  },
+  {
+    "_id": "A103",
+    "title": "A3 - Nozzle Design Fundamentals",
+    "course": "RS101",
+    "availableFrom": "2025-05-20T00:00:00",
+    "dueDate": "2025-05-27T23:59:00",
+    "points": 100,
+    "modules": ["Nozzle Geometry", "Combustion Efficiency"]
+  },
+  {
+    "_id": "A104",
+    "title": "A4 - Rocket Staging and Thrust Optimization",
+    "course": "RS101",
+    "availableFrom": "2025-05-27T00:00:00",
+    "dueDate": "2025-06-03T23:59:00",
+    "points": 150,
+    "modules": ["Thrust-to-Weight Ratio", "Multistage Rockets"]
+  },
+  {
+    "_id": "A201",
+    "title": "A1 - Aerodynamic Forces",
+    "course": "RS102",
+    "availableFrom": "2025-05-20T00:00:00",
+    "dueDate": "2025-05-27T23:59:00",
+    "points": 50,
+    "modules": ["Aerodynamic Forces", "Lift and Drag"]
+  },
+  {
+    "_id": "A202",
+    "title": "A2 - Orbital Mechanics Basics",
+    "course": "RS102",
+    "availableFrom": "2025-05-27T00:00:00",
+    "dueDate": "2025-06-03T23:59:00",
+    "points": 75,
+    "modules": ["Kepler’s Laws", "Escape Velocity"]
+  },
+  {
+    "_id": "A203",
+    "title": "A3 - Reentry and Thermal Protection",
+    "course": "RS102",
+    "availableFrom": "2025-06-03T00:00:00",
+    "dueDate": "2025-06-10T23:59:00",
+    "points": 100,
+    "modules": ["Heat Shield Design", "Material Selection"]
+  },
+  {
+    "_id": "A301",
+    "title": "A1 - Satellite Communication Fundamentals",
+    "course": "RS103",
+    "availableFrom": "2025-06-10T00:00:00",
+    "dueDate": "2025-06-17T23:59:00",
+    "points": 75,
+    "modules": ["Signal Transmission", "Telemetry Systems"]
+  },
+  {
+    "_id": "A302",
+    "title": "A2 - Spacecraft Power Systems",
+    "course": "RS103",
+    "availableFrom": "2025-06-17T00:00:00",
+    "dueDate": "2025-06-24T23:59:00",
+    "points": 100,
+    "modules": ["Solar Arrays", "Energy Storage"]
+  },
+  {
+    "_id": "A303",
+    "title": "A3 - Propellant Efficiency Analysis",
+    "course": "RS103",
+    "availableFrom": "2025-06-24T00:00:00",
+    "dueDate": "2025-07-01T23:59:00",
+    "points": 125,
+    "modules": ["Propellant Types", "Combustion Chamber Efficiency"]
+  }
+]
