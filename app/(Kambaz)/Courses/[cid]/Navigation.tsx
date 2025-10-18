@@ -1,38 +1,25 @@
 "use client";
 import Link from "next/link";
-import { usePathname, useParams } from "next/navigation";
-import { ListGroup } from "react-bootstrap";
 
-export default function CourseNavigation() {
-  const pathname = usePathname();
-  const { cid } = useParams();
-
+export default function CourseNavigation({ cid }: { cid: string }) {
   const links = [
-    "Home",
-    "Modules",
-    "Piazza",
-    "Zoom",
-    "Assignments",
-    "Quizzes",
-    "Grades",
-    "People",
+    { label: "Home", href: `/Courses/${cid}/Home` },
+    { label: "Modules", href: `/Courses/${cid}/Modules` },
+    { label: "Assignments", href: `/Courses/${cid}/Assignments` },
+    { label: "Quizzes", href: `/Courses/${cid}/Quizzes` },
+    { label: "Grades", href: `/Courses/${cid}/Grades` },
+    { label: "People", href: `/Courses/${cid}/People` },
   ];
 
   return (
-    <div id="wd-course-navigation" className="wd list-group fs-5 rounded-0">
+    <ul className="list-group rounded-0">
       {links.map((link) => (
-        <Link
-          key={link}
-          href={`/Courses/${cid}/${link}`}
-          className={`list-group-item border-0 ${
-            pathname.includes(link)
-              ? "active text-white bg-danger"
-              : "text-danger"
-          }`}
-        >
-          {link}
-        </Link>
+        <li key={link.href} className="list-group-item">
+          <Link href={link.href} className="text-decoration-none">
+            {link.label}
+          </Link>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
