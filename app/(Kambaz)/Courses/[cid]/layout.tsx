@@ -11,7 +11,7 @@ export default function CoursesLayout({
   params: { cid: string };
 }) {
   const { cid } = params;
-  const course = db.courses.find((course: any) => course._id === cid);
+const course = db.courses.find((course) => course._id === cid);
 
   return (
     <div id="wd-courses" className="d-flex">

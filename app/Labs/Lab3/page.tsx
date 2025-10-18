@@ -8,7 +8,6 @@ import ConditionalOutputInline from "./ConditionalOutputInline";
 import LegacyFunctions from "./LegacyFunctions";
 import ArrowFunctions from "./ArrowFunctions";
 import ImpliedReturn from "./ImpliedReturn";
-import { TemplateContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import TemplateLiterals from "./TemplateLiterals";
 import SimpleArrays from "./SimpleArrays";
 import ArrayIndexAndLength from "./ArrayIndexAndLength";
@@ -78,8 +77,7 @@ export default function Lab3() {
       </Highlight>
      <PathParameters/>
 
-     <TodoItem>
-      ToDo:
+     <TodoItem todo={{ done: false, title: "ToDo", status: "IN_PROGRESS" }}>
      </TodoItem>
 
       <TodoList></TodoList>

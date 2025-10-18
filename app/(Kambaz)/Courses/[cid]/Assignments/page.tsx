@@ -18,8 +18,18 @@ export default function Assignments() {
   const { cid } = useParams();
 
   // ✅ Filter strictly by current course id (case-insensitive)
+  interface Assignment {
+    _id: string;
+    title: string;
+    course: string;
+    availableFrom: string;
+    dueDate: string;
+    points: number;
+    modules?: string[];
+  }
+
   const assignments = db.assignments.filter(
-    (a: any) => a.course.toLowerCase() === String(cid).toLowerCase()
+    (a: Assignment) => a.course.toLowerCase() === String(cid).toLowerCase()
   );
 
   return (
@@ -73,7 +83,7 @@ export default function Assignments() {
             No assignments found for this course.
           </ListGroupItem>
         ) : (
-          assignments.map((a: any) => (
+assignments.map((a: Assignment) => (
             <ListGroupItem
               key={a._id}
               className="d-flex justify-content-between align-items-center border-top"

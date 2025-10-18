@@ -11,12 +11,12 @@ export default function PeopleTable() {
     <table className="table">
       <tbody>
         {users
-          .filter((usr: any) =>
+.filter((usr) =>
             enrollments.some(
               (en) => en.user === usr._id && en.course === cid
             )
           )
-          .map((user: any) => (
+.map((user) => (
             <tr key={user._id}>
               <td>
                 <FaUserCircle className="me-2 fs-1 text-secondary" />

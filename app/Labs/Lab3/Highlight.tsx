@@ -5,3 +5,4 @@ export default function Highlight({ children }: { children: ReactNode }) {
       {children}
     </span>
   );
+}

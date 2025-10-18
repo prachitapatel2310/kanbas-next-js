@@ -1,7 +1,7 @@
 export default function FindIndex() {
   // Define arrays
-  let numberArray1 = [1, 2, 4, 5, 6];
-  let stringArray1 = ["string1", "string3"];
+  const numberArray1 = [1, 2, 4, 5, 6];
+  const stringArray1 = ["string1", "string3"];
 
   // Use findIndex() to locate elements
   const fourIndex = numberArray1.findIndex(a => a === 4);

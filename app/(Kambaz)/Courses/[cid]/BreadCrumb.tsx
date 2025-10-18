@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 
-export default function Breadcrumb({ course }: { course: any }) {
+export default function Breadcrumb({ course }: { course: { name: string; _id: string } }) {
   const pathname = usePathname();
   return (
     <span>
