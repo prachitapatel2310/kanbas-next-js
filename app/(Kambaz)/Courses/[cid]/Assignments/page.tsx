@@ -12,7 +12,7 @@ import {
 import { BsGripVertical } from "react-icons/bs";
 import { FaPlus, FaCheckCircle } from "react-icons/fa";
 import { MdOutlineGroupAdd } from "react-icons/md";
-import db from "../../../Database";
+import * as db from "../../../Database";
 
 export default function Assignments() {
   const { cid } = useParams();

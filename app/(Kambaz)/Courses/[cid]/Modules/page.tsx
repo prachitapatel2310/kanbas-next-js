@@ -2,7 +2,7 @@
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
 import { useParams } from "next/navigation";
-import db from "../../../Database";
+import * as db from "../../../Database";
 
 interface Module {
   _id: string;
