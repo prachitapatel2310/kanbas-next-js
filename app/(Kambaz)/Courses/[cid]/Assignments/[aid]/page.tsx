@@ -1,5 +1,5 @@
 "use client";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";

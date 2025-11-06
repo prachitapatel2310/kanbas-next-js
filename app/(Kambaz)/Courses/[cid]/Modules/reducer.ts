@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { modules } from "../../../Database";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { v4 as uuidv4 } from "uuid";
 const initialState = {
   modules: modules,

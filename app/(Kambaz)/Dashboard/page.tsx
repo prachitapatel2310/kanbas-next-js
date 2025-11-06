@@ -1,9 +1,16 @@
 "use client";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewCourse, deleteCourse, updateCourse } from "../Courses/reducer";
-import { enrollCourse, unenrollCourse } from "./enrollmentsReducer";
+import {
+  addNewCourse,
+  deleteCourse,
+  updateCourse,
+} from "../Courses/reducer";
+import {
+  enrollCourse,
+  unenrollCourse,
+} from "./enrollmentsReducer";
 import Link from "next/link";
 import {
   Row,
@@ -18,15 +25,47 @@ import {
 } from "react-bootstrap";
 import * as db from "../Database";
 
+// ---------- Type Definitions ----------
+interface Course {
+  _id: string;
+  name: string;
+  number: string;
+  startDate: string;
+  endDate: string;
+  image?: string;
+  description: string;
+}
+
+interface Enrollment {
+  userId: string;
+  courseId: string;
+}
+
+interface User {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+  section: string;
+}
+
+// ---------- Component ----------
 export default function Dashboard() {
   const dispatch = useDispatch();
-  const { courses } = useSelector((state: any) => state.coursesReducer);
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
+
+  const { courses }: { courses: Course[] } = useSelector(
+    (state: any) => state.coursesReducer
+  );
+  const { currentUser }: { currentUser: User } = useSelector(
+    (state: any) => state.accountReducer
+  );
+  const { enrollments }: { enrollments: Enrollment[] } = useSelector(
+    (state: any) => state.enrollmentsReducer
+  );
 
   const [showAll, setShowAll] = useState(false);
 
-  const [course, setCourse] = useState<any>({
+  const [course, setCourse] = useState<Course>({
     _id: "0",
     name: "New Course",
     number: "New Number",
@@ -37,15 +76,20 @@ export default function Dashboard() {
   });
 
   const isFaculty = currentUser?.role === "Faculty";
+
   const userEnrollments = enrollments.filter(
-    (e) => e.userId === currentUser?._id
+    (e: Enrollment) => e.userId === currentUser?._id
   );
-  const enrolledCourseIds = userEnrollments.map((e) => e.courseId);
+  const enrolledCourseIds = userEnrollments.map(
+    (e: Enrollment) => e.courseId
+  );
   const visibleCourses = showAll
     ? db.courses
-    : db.courses.filter((c: any) => enrolledCourseIds.includes(c._id));
+    : db.courses.filter((c: Course) =>
+        enrolledCourseIds.includes(c._id)
+      );
 
-  const handleEnrollToggle = (courseId: string, isEnrolled: boolean) => {
+  const handleEnrollToggle = (courseId: string, isEnrolled: boolean): void => {
     if (!currentUser) return;
     if (isEnrolled) {
       dispatch(unenrollCourse({ userId: currentUser._id, courseId }));
@@ -61,7 +105,7 @@ export default function Dashboard() {
       </h1>
       <hr />
 
-      {/* --------------------- FACULTY VIEW --------------------- */}
+      {/* ---------- FACULTY VIEW ---------- */}
       {isFaculty && (
         <>
           <h5>
@@ -89,7 +133,9 @@ export default function Dashboard() {
             className="mb-2"
             value={course.name}
             placeholder="Course Name"
-            onChange={(e) => setCourse({ ...course, name: e.target.value })}
+            onChange={(e) =>
+              setCourse({ ...course, name: e.target.value })
+            }
           />
           <FormControl
             as="textarea"
@@ -109,7 +155,7 @@ export default function Dashboard() {
           <hr />
 
           <Row xs={1} md={5} className="g-4">
-            {courses.map((c: any) => (
+            {courses.map((c: Course) => (
               <Col key={c._id} style={{ width: "300px" }}>
                 <Card>
                   <Link
@@ -170,7 +216,7 @@ export default function Dashboard() {
         </>
       )}
 
-      {/* --------------------- STUDENT VIEW --------------------- */}
+      {/* ---------- STUDENT VIEW ---------- */}
       {!isFaculty && (
         <>
           <div className="d-flex justify-content-between align-items-center mb-3">
@@ -185,7 +231,7 @@ export default function Dashboard() {
           </div>
 
           <Row xs={1} md={5} className="g-4">
-            {visibleCourses.map((c: any) => {
+            {visibleCourses.map((c: Course) => {
               const isEnrolled = enrolledCourseIds.includes(c._id);
               return (
                 <Col key={c._id} style={{ width: "300px" }}>
@@ -207,7 +253,10 @@ export default function Dashboard() {
                         {c.description}
                       </CardText>
                       <div className="d-flex justify-content-between align-items-center">
-                        <Button variant="primary" href={`/Courses/${c._id}/Home`}>
+                        <Button
+                          variant="primary"
+                          href={`/Courses/${c._id}/Home`}
+                        >
                           Go
                         </Button>
                         <Button
