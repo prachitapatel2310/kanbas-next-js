@@ -4,7 +4,7 @@ import CourseNavigation from "./Navigation";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 import { FaAlignJustify } from "react-icons/fa6";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default function CoursesLayout({ children }: { children: ReactNode }) {
   // Get course ID from URL params
   const { cid } = useParams();
