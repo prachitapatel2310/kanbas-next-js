@@ -1,115 +1,162 @@
 "use client";
 
-import React from "react";
-import { Form, Button, Table } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../../store";
+import { addAssignment, updateAssignment } from "../reducer";
+import { Form, Button, Card, Row, Col } from "react-bootstrap";
 
-export default function AssignmentEditor({ params }: { params: Promise<{ cid: string; aid: string }> }) {
-  // ✅ unwrap the params Promise using React.use()
-  const { cid, aid } = React.use(params);
+export default function AssignmentEditor() {
+  const { cid, aid } = useParams();
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { assignments } = useSelector(
+    (state: RootState) => state.assignmentsReducer
+  );
+
+  const existing =
+    aid && aid !== "new"
+      ? assignments.find((a: any) => a._id === aid)
+      : null;
+
+  const [form, setForm] = useState({
+    title: existing?.title || "New Assignment",
+    description: existing?.description || "New Assignment Description",
+    points: existing?.points || 100,
+    availableFrom: existing?.availableFrom || "",
+    dueDate: existing?.dueDate || "",
+    untilDate: existing?.untilDate || "",
+  });
+
+  useEffect(() => {
+    if (existing) {
+      setForm({
+        title: existing.title,
+        description: existing.description,
+        points: existing.points,
+        availableFrom: existing.availableFrom,
+        dueDate: existing.dueDate,
+        untilDate: existing.untilDate,
+      });
+    }
+  }, [existing]);
+
+  const handleSave = () => {
+    if (!form.title.trim()) {
+      alert("Assignment name is required.");
+      return;
+    }
+
+    if (existing) {
+      dispatch(updateAssignment({ ...existing, ...form }));
+    } else {
+      dispatch(addAssignment({ ...form, course: cid }));
+    }
+
+    router.push(`/Courses/${cid}/Assignments`);
+  };
+
+  const handleCancel = () => {
+    router.push(`/Courses/${cid}/Assignments`);
+  };
 
   return (
-    <div id="wd-assignments-editor" className="p-4">
+    <div className="p-4" style={{ maxWidth: "750px" }}>
       <h3 className="fw-bold mb-4">
-        Assignment {aid.toUpperCase()} for Course {cid}
+        {existing ? "Edit Assignment" : "New Assignment"}
       </h3>
 
+      {/* Assignment Name */}
       <Form.Group className="mb-4">
         <Form.Label className="fw-semibold">Assignment Name</Form.Label>
-        <Form.Control id="wd-name" defaultValue={`Assignment ${aid.toUpperCase()}`} />
-      </Form.Group>
-
-      <Form.Group className="mb-5">
-        <Form.Label className="fw-semibold">Description</Form.Label>
         <Form.Control
-          as="textarea"
-          rows={8}
-          id="wd-description"
-          defaultValue={`The assignment is available online.\n\nSubmit a link to the landing page of your Web application running on Netlify.\n\nThe landing page should include the following:\n• Your full name and section\n• Links to each of the lab assignments\n• Link to the Kanbas application\n• Links to all relevant source code repositories\n\nThe Kanbas application should include a link to navigate back to the landing page.`}
+          value={form.title}
+          onChange={(e) => setForm({ ...form, title: e.target.value })}
         />
       </Form.Group>
 
-      <Table borderless className="align-middle" style={{ maxWidth: "750px" }}>
-        <tbody>
-          <tr>
-            <td className="text-end fw-semibold" style={{ width: "200px" }}>
-              Points
-            </td>
-            <td>
-              <Form.Control id="wd-points" type="number" defaultValue={100} />
-            </td>
-          </tr>
-          <tr>
-            <td className="text-end fw-semibold">Assignment Group</td>
-            <td>
-              <Form.Select id="wd-group" defaultValue="assignments">
-                <option value="assignments">ASSIGNMENTS</option>
-                <option value="quizzes">QUIZZES</option>
-                <option value="exams">EXAMS</option>
-              </Form.Select>
-            </td>
-          </tr>
-          <tr>
-            <td className="text-end fw-semibold">Display Grade as</td>
-            <td>
-              <Form.Select id="wd-grade" defaultValue="percentage">
-                <option value="percentage">Percentage</option>
-                <option value="points">Points</option>
-                <option value="complete">Complete/Incomplete</option>
-              </Form.Select>
-            </td>
-          </tr>
-          <tr>
-            <td className="text-end fw-semibold">Submission Type</td>
-            <td>
-              <Form.Select id="wd-submission" defaultValue="online">
-                <option value="online">Online</option>
-                <option value="on-paper">On Paper</option>
-                <option value="external">External Tool</option>
-              </Form.Select>
-            </td>
-          </tr>
-          <tr>
-            <td className="text-end fw-semibold">Online Entry Options</td>
-            <td>
-              <Form.Check type="checkbox" label="Text Entry" defaultChecked />
-              <Form.Check type="checkbox" label="Website URL" />
-              <Form.Check type="checkbox" label="Media Recordings" />
-              <Form.Check type="checkbox" label="File Uploads" />
-            </td>
-          </tr>
-          <tr>
-            <td className="text-end fw-semibold">Assign To</td>
-            <td>
-              <Form.Control id="wd-assign-to" defaultValue="Everyone" />
-            </td>
-          </tr>
-          <tr>
-            <td className="text-end fw-semibold">Due</td>
-            <td>
-              <Form.Control id="wd-due-date" type="date" defaultValue="2025-05-13" />
-            </td>
-          </tr>
-          <tr>
-            <td className="text-end fw-semibold">Available From</td>
-            <td>
-              <Form.Control id="wd-available-from" type="date" defaultValue="2025-05-06" />
-            </td>
-          </tr>
-          <tr>
-            <td className="text-end fw-semibold">Until</td>
-            <td>
-              <Form.Control id="wd-until-date" type="date" defaultValue="2025-05-20" />
-            </td>
-          </tr>
-        </tbody>
-      </Table>
+      {/* Description */}
+      <Form.Group className="mb-4">
+        <Form.Control
+          as="textarea"
+          rows={4}
+          value={form.description}
+          onChange={(e) => setForm({ ...form, description: e.target.value })}
+        />
+      </Form.Group>
 
-      <div className="mt-4 d-flex gap-3">
-        <Button variant="danger" className="px-4 fw-semibold">
-          Save
-        </Button>
-        <Button variant="secondary" className="px-4 fw-semibold">
+      {/* Points */}
+      <Form.Group className="mb-4">
+        <Form.Label className="fw-semibold">Points</Form.Label>
+        <Form.Control
+          type="number"
+          value={form.points}
+          onChange={(e) =>
+            setForm({ ...form, points: Number(e.target.value) })
+          }
+          style={{ maxWidth: "150px" }}
+        />
+      </Form.Group>
+
+      {/* Assign Section */}
+      <div className="mb-4">
+        <Form.Label className="fw-semibold d-block mb-2">Assign</Form.Label>
+        <Card className="p-3" style={{ maxWidth: "600px" }}>
+          <Form.Group className="mb-3">
+            <Form.Label className="fw-semibold">Due</Form.Label>
+            <Form.Control
+              type="date"
+              value={form.dueDate}
+              onChange={(e) => setForm({ ...form, dueDate: e.target.value })}
+            />
+          </Form.Group>
+
+          <Row>
+            <Col>
+              <Form.Group>
+                <Form.Label className="fw-semibold">Available from</Form.Label>
+                <Form.Control
+                  type="date"
+                  value={form.availableFrom}
+                  onChange={(e) =>
+                    setForm({ ...form, availableFrom: e.target.value })
+                  }
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group>
+                <Form.Label className="fw-semibold">Until</Form.Label>
+                <Form.Control
+                  type="date"
+                  value={form.untilDate}
+                  onChange={(e) =>
+                    setForm({ ...form, untilDate: e.target.value })
+                  }
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+        </Card>
+      </div>
+
+      {/* Buttons */}
+      <hr className="my-4" />
+      <div className="d-flex gap-3 justify-content-end">
+        <Button
+          variant="secondary"
+          className="px-4 fw-semibold"
+          onClick={handleCancel}
+        >
           Cancel
+        </Button>
+        <Button
+          variant="danger"
+          className="px-4 fw-semibold"
+          onClick={handleSave}
+        >
+          Save
         </Button>
       </div>
     </div>

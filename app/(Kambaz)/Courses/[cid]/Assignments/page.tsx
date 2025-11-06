@@ -1,36 +1,31 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../store";
+import { deleteAssignment } from "./reducer";
 import {
   Button,
-  FormControl,
   InputGroup,
+  FormControl,
   ListGroup,
   ListGroupItem,
 } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
-import { FaPlus, FaCheckCircle } from "react-icons/fa";
+import { FaPlus, FaTrash, FaCheckCircle } from "react-icons/fa";
+import { FaPencilAlt } from "react-icons/fa"; // ✏️ Pencil icon
 import { MdOutlineGroupAdd } from "react-icons/md";
-import * as db from "../../../Database";
 
 export default function Assignments() {
   const { cid } = useParams();
-
-  // ✅ Filter strictly by current course id (case-insensitive)
-  interface Assignment {
-    _id: string;
-    title: string;
-    course: string;
-    availableFrom: string;
-    dueDate: string;
-    points: number;
-    modules?: string[];
-  }
-
-  const assignments = db.assignments.filter(
-    (a: Assignment) => a.course.toLowerCase() === String(cid).toLowerCase()
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { assignments } = useSelector(
+    (state: RootState) => state.assignmentsReducer
   );
+
+  const courseAssignments = assignments.filter((a: any) => a.course === cid);
 
   return (
     <div id="wd-assignments" className="p-4" style={{ background: "#fff" }}>
@@ -40,15 +35,24 @@ export default function Assignments() {
         style={{ justifyContent: "space-between" }}
       >
         <InputGroup style={{ maxWidth: "300px" }}>
-          <FormControl placeholder="Search for Assignments" />
+          <FormControl placeholder="Search for Assignment" />
         </InputGroup>
 
         <div className="d-flex gap-2">
-          <Button variant="secondary" className="fw-semibold d-flex align-items-center">
-            <MdOutlineGroupAdd className="me-2 fs-5" /> + Group
+          <Button
+            variant="secondary"
+            className="fw-semibold d-flex align-items-center"
+          >
+            <MdOutlineGroupAdd className="me-2 fs-5" /> Group
           </Button>
-          <Button variant="danger" className="fw-semibold d-flex align-items-center">
-            <FaPlus className="me-2 fs-5" /> + Assignment
+          <Button
+            variant="danger"
+            className="fw-semibold d-flex align-items-center"
+            onClick={() =>
+              router.push(`/Courses/${cid}/Assignments/new`)
+            }
+          >
+            <FaPlus className="me-2 fs-5" /> Assignment
           </Button>
         </div>
       </div>
@@ -68,7 +72,10 @@ export default function Assignments() {
             <strong>ASSIGNMENTS</strong>
           </div>
           <div className="d-flex align-items-center gap-2">
-            <span className="fw-bold text-secondary" style={{ fontSize: "13px" }}>
+            <span
+              className="fw-bold text-secondary"
+              style={{ fontSize: "13px" }}
+            >
               40% of Total
             </span>
             <Button variant="outline-dark" size="sm">
@@ -78,12 +85,12 @@ export default function Assignments() {
         </ListGroupItem>
 
         {/* ---- Assignment Rows ---- */}
-        {assignments.length === 0 ? (
+        {courseAssignments.length === 0 ? (
           <ListGroupItem className="text-muted text-center py-4">
             No assignments found for this course.
           </ListGroupItem>
         ) : (
-assignments.map((a: Assignment) => (
+          courseAssignments.map((a: any) => (
             <ListGroupItem
               key={a._id}
               className="d-flex justify-content-between align-items-center border-top"
@@ -91,8 +98,12 @@ assignments.map((a: Assignment) => (
                 backgroundColor: "#fff",
                 transition: "background-color 0.2s",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#f9f9f9")}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#fff")}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = "#f9f9f9")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor = "#fff")
+              }
             >
               <div>
                 <div className="d-flex align-items-center">
@@ -102,20 +113,52 @@ assignments.map((a: Assignment) => (
                     className="fw-bold text-decoration-none"
                     style={{ color: "#0073e6", fontSize: "15px" }}
                   >
-                    {a.title}
+                    {a.title || "Untitled Assignment"}
                   </Link>
                 </div>
-                <div className="text-muted ms-4" style={{ fontSize: "13px" }}>
+                <div
+                  className="text-muted ms-4"
+                  style={{ fontSize: "13px" }}
+                >
                   <span style={{ color: "#c62828" }}>
                     {a.modules?.join(", ") || "Multiple Modules"}
                   </span>{" "}
-                  | <strong>Available</strong>{" "}
-                  {new Date(a.availableFrom).toLocaleDateString("en-US")} |{" "}
-                  <strong>Due</strong>{" "}
-                  {new Date(a.dueDate).toLocaleDateString("en-US")} | {a.points} pts
+                  | <strong>Due</strong>{" "}
+                  {new Date(a.dueDate).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  })}{" "}
+                  at 11:59pm | {a.points} pts
                 </div>
               </div>
-              <FaCheckCircle className="text-success fs-4" />
+
+              {/* ---- Control Buttons ---- */}
+              <div className="d-flex align-items-center gap-3">
+                {/* Edit (Pencil) */}
+                <FaPencilAlt
+                  className="text-primary fs-5"
+                  style={{ cursor: "pointer" }}
+                  title="Edit Assignment"
+                  onClick={() =>
+                    router.push(`/Courses/${cid}/Assignments/${a._id}`)
+                  }
+                />
+
+                {/* Checkmark */}
+                <FaCheckCircle className="text-success fs-4" title="Complete" />
+
+                {/* Delete */}
+                <FaTrash
+                  className="text-danger fs-5"
+                  style={{ cursor: "pointer" }}
+                  title="Delete Assignment"
+                  onClick={() => {
+                    if (window.confirm("Delete this assignment?")) {
+                      dispatch(deleteAssignment(a._id));
+                    }
+                  }}
+                />
+              </div>
             </ListGroupItem>
           ))
         )}
