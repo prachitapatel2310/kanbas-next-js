@@ -1,72 +1,155 @@
-import { Table } from "react-bootstrap";
-import { FaUserCircle } from "react-icons/fa";
+"use client";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../store";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import * as client from "./client";
 
-export default function PeopleTable() {
+import {
+  setPeople,
+  addPerson,
+  updatePerson,
+  removePerson,
+} from "./reducer";
+
+import { Button, Table, FormControl } from "react-bootstrap";
+
+export default function PeoplePage() {
+  const dispatch = useDispatch();
+
+  const { list: people } = useSelector((state: RootState) => state.peopleReducer);
+  const { currentUser } = useSelector((state: RootState) => state.accountReducer);
+
+  const isFaculty = currentUser?.role === "Faculty";
+
+  const [person, setPerson] = useState<any>({
+    firstName: "",
+    lastName: "",
+    role: "Student",
+  });
+
+  const loadPeople = async () => {
+    const data = await client.fetchAllUsers();
+    dispatch(setPeople(data));
+  };
+
+  useEffect(() => {
+    loadPeople();
+  }, []);
+
+  const handleCreate = async () => {
+    const newUserPayload = {
+      firstName: person.firstName,
+      lastName: person.lastName,
+      role: person.role,
+    };
+
+    const newUser = await client.createUser(newUserPayload);
+    dispatch(addPerson(newUser));
+
+    setPerson({ firstName: "", lastName: "", role: "Student" });
+  };
+
+  const handleUpdate = async () => {
+    const updatedPayload = {
+      firstName: person.firstName,
+      lastName: person.lastName,
+      role: person.role,
+    };
+
+    await client.updateUser(person._id, updatedPayload);
+    dispatch(updatePerson({ ...person }));
+
+    setPerson({ firstName: "", lastName: "", role: "Student" });
+  };
+
+  const handleDelete = async (id: string) => {
+    await client.deleteUser(id);
+    dispatch(removePerson(id));
+  };
+
+  const startEditing = (u: any) => {
+    setPerson({
+      _id: u._id,
+      firstName: u.firstName,
+      lastName: u.lastName,
+      role: u.role,
+    });
+  };
+
   return (
-    <div id="wd-people-table">
-      <Table striped>
+    <div className="p-4">
+      <h2 className="fw-bold mb-3">People</h2>
+
+      {isFaculty && (
+        <>
+          <h5>Create / Edit User</h5>
+
+          <FormControl
+            className="mb-2"
+            placeholder="First Name"
+            value={person.firstName}
+            onChange={(e) => setPerson({ ...person, firstName: e.target.value })}
+          />
+
+          <FormControl
+            className="mb-2"
+            placeholder="Last Name"
+            value={person.lastName}
+            onChange={(e) => setPerson({ ...person, lastName: e.target.value })}
+          />
+
+          <FormControl
+            className="mb-2"
+            placeholder="Role (Student / Faculty / TA)"
+            value={person.role}
+            onChange={(e) => setPerson({ ...person, role: e.target.value })}
+          />
+
+          <div className="mt-2 mb-3">
+            <Button className="me-2" onClick={handleCreate}>
+              Create
+            </Button>
+
+            <Button variant="warning" onClick={handleUpdate}>
+              Update
+            </Button>
+          </div>
+        </>
+      )}
+
+      <Table bordered hover>
         <thead>
           <tr>
             <th>Name</th>
-            <th>Login ID</th>
-            <th>Section</th>
             <th>Role</th>
-            <th>Last Activity</th>
-            <th>Total Activity</th>
+            {isFaculty && <th>Actions</th>}
           </tr>
         </thead>
+
         <tbody>
-          <tr>
-            <td className="wd-full-name text-nowrap">
-              <FaUserCircle className="me-2 fs-1 text-secondary" />
-              <span className="wd-first-name">Tony</span>{" "}
-              <span className="wd-last-name">Stark</span>
-            </td>
-            <td className="wd-login-id">001234561S</td>
-            <td className="wd-section">S101</td>
-            <td className="wd-role">STUDENT</td>
-            <td className="wd-last-activity">2020-10-01</td>
-            <td className="wd-total-activity">10:21:32</td>
-          </tr>
+          {people.map((u: any) => (
+            <tr key={u._id}>
+              <td>{u.firstName} {u.lastName}</td>
+              <td>{u.role}</td>
 
-          <tr>
-            <td className="wd-full-name text-nowrap">
-              <FaUserCircle className="me-2 fs-1 text-secondary" />
-              <span className="wd-first-name">Bruce</span>{" "}
-              <span className="wd-last-name">Wayne</span>
-            </td>
-            <td className="wd-login-id">001234562B</td>
-            <td className="wd-section">S102</td>
-            <td className="wd-role">STUDENT</td>
-            <td className="wd-last-activity">2020-10-02</td>
-            <td className="wd-total-activity">12:15:47</td>
-          </tr>
+              {isFaculty && (
+                <td>
+                  <Button size="sm" className="me-2" onClick={() => startEditing(u)}>
+                    Edit
+                  </Button>
 
-          <tr>
-            <td className="wd-full-name text-nowrap">
-              <FaUserCircle className="me-2 fs-1 text-secondary" />
-              <span className="wd-first-name">Steve</span>{" "}
-              <span className="wd-last-name">Rogers</span>
-            </td>
-            <td className="wd-login-id">001234563R</td>
-            <td className="wd-section">S103</td>
-            <td className="wd-role">TA</td>
-            <td className="wd-last-activity">2020-10-03</td>
-            <td className="wd-total-activity">08:34:10</td>
-          </tr>
-
-          <tr>
-            <td className="wd-full-name text-nowrap">
-              <FaUserCircle className="me-2 fs-1 text-secondary" />
-              <span className="wd-first-name">Natasha</span>{" "}
-              <span className="wd-last-name">Romanoff</span>
-            </td>
-            <td className="wd-login-id">001234564N</td>
-            <td className="wd-section">S104</td>
-            <td className="wd-role">INSTRUCTOR</td>
-            <td className="wd-last-activity">2020-10-04</td>
-            <td className="wd-total-activity">15:09:56</td>
-          </tr>
+                  <Button
+                    size="sm"
+                    variant="danger"
+                    onClick={() => handleDelete(u._id)}
+                  >
+                    Delete
+                  </Button>
+                </td>
+              )}
+            </tr>
+          ))}
         </tbody>
       </Table>
     </div>

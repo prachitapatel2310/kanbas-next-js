@@ -1,5 +1,6 @@
 "use client";
-import { Modal, FormControl, Button } from "react-bootstrap";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Modal, Button, FormControl } from "react-bootstrap";
 
 export default function ModuleEditor({
   show,
@@ -8,14 +9,7 @@ export default function ModuleEditor({
   moduleName,
   setModuleName,
   addModule,
-}: {
-  show: boolean;
-  handleClose: () => void;
-  dialogTitle: string;
-  moduleName: string;
-  setModuleName: (name: string) => void;
-  addModule: () => void;
-}) {
+}: any) {
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
@@ -24,8 +18,8 @@ export default function ModuleEditor({
 
       <Modal.Body>
         <FormControl
+          placeholder="Module name"
           value={moduleName}
-          placeholder="Enter module name"
           onChange={(e) => setModuleName(e.target.value)}
         />
       </Modal.Body>
@@ -34,14 +28,15 @@ export default function ModuleEditor({
         <Button variant="secondary" onClick={handleClose}>
           Cancel
         </Button>
+
         <Button
           variant="primary"
-          onClick={() => {
-            addModule();
-            handleClose();
+          onClick={async () => {
+            await addModule();    // CREATE THE MODULE
+            handleClose();        // CLOSE MODAL
           }}
         >
-          Add Module
+          Save
         </Button>
       </Modal.Footer>
     </Modal>
