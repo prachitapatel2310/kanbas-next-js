@@ -27,7 +27,7 @@ export default function Signin() {
       router.push("/Dashboard");
     } catch (error: any) {
       console.error(error);
-      setErrorMessage(error.response?.data?.message || "Signin failed");
+      setErrorMessage(error.response?.data?.message || "Signin has failed");
     }
   };
 
